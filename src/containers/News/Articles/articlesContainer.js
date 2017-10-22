@@ -3,7 +3,7 @@ import { compose } from 'recompose';
 import { createSelector } from 'reselect'
 import handlers from './handlers';
 import Articles from './Articles';
-import { setLikesFromLocalStorage, addLike } from '../../../modules/news'
+import { setLikesFromLocalStorage, addLike, addReader } from '../../../modules/news'
 
 const getArticles = createSelector([
   state => state.get('publishers').toJS()],
@@ -19,10 +19,11 @@ const getArticles = createSelector([
 const mapStateToProps = state => ({
   ids: getArticles(state),
   entities: state.getIn(['publishers', 'articles']).toJS(),
-  likes: state.getIn(['publishers', 'likes']).toJS()
+  likes: state.getIn(['publishers', 'likes']).toJS(),
+  readers: state.getIn(['publishers', 'readers']).toJS()
 });
 
-const mapDispatchToProps = { setLikesFromLocalStorage, addLike };
+const mapDispatchToProps = { setLikesFromLocalStorage, addLike, addReader };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

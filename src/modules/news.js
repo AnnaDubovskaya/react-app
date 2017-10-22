@@ -14,6 +14,9 @@ const SELECT_PUBLISHER = 'SELECT_PUBLISHER';
 const SET_SEARCH_DATA = 'SET_SEARCH_DATA';
 const SET_LIKES_FROM_LOCAL_STORAGE = 'SET_LIKED_FROM_LOCAL_STORAGE';
 const ADD_LIKE = 'ADD_LIKED';
+const SET_NUMBER_OF_VISITORS = 'SET_NUMBER_OF_VISITORS';
+const ADD_READER = 'ADD_READER';
+const SET_READERS_FROM_LOCAL_STORAGE = 'SET_READERS_FROM_LOCAL_STORAGE';
 const URLS = [
   'https://newsapi.org/v1/articles?source=abc-news-au&sortBy=top&apiKey=7198dc6293f54680a7a1b9b11c3bcada',
   'https://newsapi.org/v1/articles?source=bbc-news&sortBy=top&apiKey=7198dc6293f54680a7a1b9b11c3bcada',
@@ -56,10 +59,22 @@ export const addLike = (article, count) => {
   return { type: ADD_LIKE, article, count };
 };
 
+export const setNumberOfVisitors = numberOfVisitors => {
+  return { type: SET_NUMBER_OF_VISITORS, numberOfVisitors };
+};
+
+export const addReader = (article, count) => {
+  return { type: ADD_READER, article, count };
+};
+
+export const setReadersFromLocalStorage = readers => {
+  return { type: SET_READERS_FROM_LOCAL_STORAGE, readers };
+};
+
 // reducers
 
 const defaultState = fromJS({
-  publishers: { searchData: '', likes: {} }
+  publishers: { searchData: '', likes: {}, numberOfVisitors: 0, readers: {} }
 });
 
 export default (state = defaultState, action = {}) => {
@@ -73,7 +88,10 @@ export default (state = defaultState, action = {}) => {
     case SET_ARTICLES: return state.setIn(['publishers', 'articles'], action.articles);
     case SET_SEARCH_DATA: return state.setIn(['publishers', 'searchData'], action.searchData);
     case SET_LIKES_FROM_LOCAL_STORAGE: return state.setIn(['publishers', 'likes'], action.liked);
-    case ADD_LIKE: return state.setIn(['publishers', 'likes', [action.article]], action.count);
+    case ADD_LIKE: return state.setIn(['publishers', 'likes', action.article], action.count);
+    case SET_NUMBER_OF_VISITORS: return state.setIn(['publishers', 'numberOfVisitors'], action.numberOfVisitors);
+    case ADD_READER: return state.setIn(['publishers', 'readers', action.article], action.count);
+    case SET_READERS_FROM_LOCAL_STORAGE: return state.setIn(['publishers', 'readers'], action.readers);
     default: return state;
   }
 }

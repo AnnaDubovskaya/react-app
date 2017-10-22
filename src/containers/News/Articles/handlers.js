@@ -5,18 +5,23 @@ export default compose(
     addLike: props => item => {
       const { addLike, likes } = props;
       const count = likes[item] ? likes[item] + 1 : 1;
-      console.log('count', likes[item], count);
       addLike(item, count);
-      addLikeToLocalStorage(item, count);
+      addToLocalStorage(item, count, 'likes');
     },
+    addReader: props => item => {
+      const { readers, addReader } = props;
+      const count = readers[item] ? readers[item] + 1 : 1;
+      addReader(item, count);
+      addToLocalStorage(item, count, 'readers');
+    }
   })
 )
 
-const addLikeToLocalStorage = (item, count) => {
-  if (!localStorage.likes) {
-    localStorage.setItem('likes', JSON.stringify({}));
+const addToLocalStorage = (item, count, name) => {
+  if (!localStorage[name]) {
+    localStorage.setItem(name, JSON.stringify({}));
   }
-  const likes = JSON.parse(localStorage.likes);
-  likes[item] = count;
-  localStorage.setItem('likes', JSON.stringify(likes));
+  const data = JSON.parse(localStorage[name]);
+  data[item] = count;
+  localStorage.setItem(name, JSON.stringify(data));
 };

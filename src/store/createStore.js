@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux'
-import { fromJS } from 'immutable';
 import thunk from 'redux-thunk'
-import reducers, { setLikesFromLocalStorage } from '../modules/news';
+import addToStoreFromLocaleStorage from '../utils/addToStoreFromLocaleStorage'
+import reducers from '../modules/news';
 
 let middleware = [thunk];
 
@@ -13,9 +13,3 @@ export default function configureStore (initialState) {
   addToStoreFromLocaleStorage(store);
   return store
 }
-
-const addToStoreFromLocaleStorage = store => {
-  if (localStorage.likes) {
-    store.dispatch(setLikesFromLocalStorage(fromJS(JSON.parse(localStorage.likes))))
-  }
-};

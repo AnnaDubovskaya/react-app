@@ -5,14 +5,16 @@ import Col from 'react-bootstrap/lib/Col';
 import Navigation from './Navigation';
 import Articles from './Articles/index';
 import TextField from '../components/TextField';
+import NumberOfVisitors from './NumberOfVisitors';
 
 const News = ({ publishers, selectPublisher, onSearch }) => {
-  const { ids, selectedPublisher, searchData } = publishers;
+  const { ids, selectedPublisher, searchData, numberOfVisitors } = publishers;
   return (
     <Grid>
       <Row>
         <Col md={3} sm={3}>
           <Navigation publishers={ids} selectPublisher={selectPublisher} />
+          <NumberOfVisitors count={numberOfVisitors} />
         </Col>
         <Col md={9} sm={9}>
           {selectedPublisher ?
@@ -37,7 +39,7 @@ News.propTypes = {
 
 News.defaultProps = {
   publishers: {},
-  searchData: ''
+  searchData: '',
 };
 
 export default News;
